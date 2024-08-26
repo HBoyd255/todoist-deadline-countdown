@@ -74,6 +74,12 @@ def get_data():
         if due.is_recurring:
             continue
 
+        project_name = project_name_dict[task.project_id]
+
+        # Skip any tasks in the Incubator project.
+        if project_name == "Incubator":
+            continue
+
         # Get the date of the deadline as a string.
         deadline_string = due.date
 
@@ -88,7 +94,7 @@ def get_data():
 
         tasks_element["name"] = task_name
         tasks_element["days"] = days_until_deadline
-        tasks_element["project"] = project_name_dict[task.project_id]
+        tasks_element["project"] = project_name
 
         list_of_tasks.append(tasks_element)
 
