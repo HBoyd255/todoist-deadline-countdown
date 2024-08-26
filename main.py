@@ -1,3 +1,4 @@
+import re
 from todoist_api_python.api import TodoistAPI
 from modules.file_utils import text_file_to_string, save_object, load_object
 from datetime import datetime, date
@@ -8,7 +9,7 @@ from modules.gui import GUI
 # If set to True, the data will be loaded from the pickle files.
 # If set to False, the data will be loaded from the Todoist API.
 # This allows for faster testing.
-LOAD_FROM_PICKLE = False
+LOAD_FROM_PICKLE = True
 
 # The API key is stored in a text file to keep it secret from the git
 # repository.
@@ -17,6 +18,18 @@ API_KEY = text_file_to_string(API_TEXT_FILE)
 
 # Create an instance of the Todoist API.
 api = TodoistAPI(API_KEY)
+
+
+def format_task_name(task_name):
+
+    # Remove the asterisk and space from the task name.
+    if task_name.startswith("*"):
+        task_name = task_name[2:]
+
+    # Remove the markdown link from the task name.
+    task_name = re.sub(r"\[([^\]]+)\]\(([^\)]+)\)", r"\1", task_name)
+
+    return task_name
 
 
 def get_data():
@@ -56,8 +69,11 @@ def get_data():
         # Get the number of days until the deadline as an integer.
         days_until_deadline = (deadline_date - date.today()).days
 
+        # Format the task name.
+        task_name = format_task_name(task.content)
+
         # Add the task content and days until the deadline to the dictionary.
-        tasks_and_days_remaining[task.content] = days_until_deadline
+        tasks_and_days_remaining[task_name] = days_until_deadline
 
     # Sort the dictionary by the number of days remaining.
     tasks_and_days_remaining = dict(
