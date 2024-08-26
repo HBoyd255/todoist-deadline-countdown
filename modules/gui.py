@@ -31,7 +31,7 @@ class GUI:
 
         self._root = tk.Tk()
         self._root.title("Todoist Task Selector")
-        self._root.geometry("400x400")
+        self._root.geometry("800x600")
         self._root.configure(bg=WHITE)
 
     def _show_deadline_list(self):
@@ -100,8 +100,6 @@ class GUI:
             task_name = task_element["name"]
             days_remaining = task_element["days"]
             project_name = task_element["project"]
-
-            print(task_name, days_remaining, project_name)
 
             even_row = i % 2 == 0
 
