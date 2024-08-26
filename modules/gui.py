@@ -23,6 +23,7 @@ BLACK = "#081820"
 
 TEXT_COLOR = BLACK
 
+
 class GUI:
     def __init__(self, get_data_function) -> None:
 
@@ -52,8 +53,11 @@ class GUI:
         # Configure columns to expand and fill space
         table_frame.grid_columnconfigure(0, weight=5, uniform="col")
         table_frame.grid_columnconfigure(1, weight=1, uniform="col")
+        table_frame.grid_columnconfigure(2, weight=2, uniform="col")
 
         # Create table headers
+
+        # Task
         tk.Label(
             table_frame,
             text="Task",
@@ -63,6 +67,8 @@ class GUI:
             bd=1,
             relief="solid",
         ).grid(row=0, column=0, padx=PAD_X, pady=PAD_Y, sticky="nsew")
+
+        # Days
         tk.Label(
             table_frame,
             text="Days",
@@ -73,8 +79,29 @@ class GUI:
             relief="solid",
         ).grid(row=0, column=1, padx=PAD_X, pady=PAD_Y, sticky="nsew")
 
+        # Project
+        tk.Label(
+            table_frame,
+            text="Project",
+            font=(CHOSEN_FONT, 24),
+            bg=DARK_GRAY,
+            fg=TEXT_COLOR,
+            bd=1,
+            relief="solid",
+        ).grid(row=0, column=2, padx=PAD_X, pady=PAD_Y, sticky="nsew")
+
         # For each task, create a row with the task name and days until deadline.
-        for i, (key, value) in enumerate(self._data.items(), start=1):
+        for i in range(0, len(self._data)):
+
+            row_number = i + 1
+
+            task_element = self._data[i]
+
+            task_name = task_element["name"]
+            days_remaining = task_element["days"]
+            project_name = task_element["project"]
+
+            print(task_name, days_remaining, project_name)
 
             even_row = i % 2 == 0
 
@@ -85,25 +112,43 @@ class GUI:
                 colour_a = LIGHT_GRAY
                 colour_b = WHITE
 
+            # Task name
             tk.Label(
                 table_frame,
-                text=key,
+                text=task_name,
                 font=(CHOSEN_FONT, 20),
                 bg=colour_a,
                 fg=TEXT_COLOR,
                 bd=1,
                 relief="solid",
-            ).grid(row=i, column=0, padx=PAD_X, pady=PAD_Y, sticky="nsew")
+            ).grid(
+                row=row_number, column=0, padx=PAD_X, pady=PAD_Y, sticky="nsew"
+            )
 
+            # Days remaining
             tk.Label(
                 table_frame,
-                text=value,
+                text=days_remaining,
                 font=(CHOSEN_FONT, 20),
                 bg=colour_b,
                 fg=TEXT_COLOR,
                 bd=1,
                 relief="solid",
-            ).grid(row=i, column=1, padx=PAD_X, pady=PAD_Y, sticky="nsew")
+            ).grid(
+                row=row_number, column=1, padx=PAD_X, pady=PAD_Y, sticky="nsew"
+            )
+            # Project name
+            tk.Label(
+                table_frame,
+                text=project_name,
+                font=(CHOSEN_FONT, 20),
+                bg=colour_a,
+                fg=TEXT_COLOR,
+                bd=1,
+                relief="solid",
+            ).grid(
+                row=row_number, column=2, padx=PAD_X, pady=PAD_Y, sticky="nsew"
+            )
 
     def _start(self):
         """Initializes the GUI by getting the data and showing the context menu."""

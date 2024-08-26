@@ -47,18 +47,26 @@ def get_data():
         save_object(all_labels, "secrets/labels.pickle")
         save_object(all_projects, "secrets/projects.pickle")
 
-    # print(str(all_tasks[0]).replace(",", "\n"))
-    # print()
+    # Create a dictionary of project names.
+
+    # This was the name of a project can be found by its ID.
+    project_name_dict = {}
+
+    for project in all_projects:
+        project_name_dict[project.id] = project.name
 
     # Filter the tasks that have a deadline.
     task_with_deadlines = [task for task in all_tasks if task.due is not None]
 
-    # Create a dictionary with the task content as the key and the days until the
-    # deadline as the value.
-    tasks_and_days_remaining = {}
+    # Create a list to hold the tasks.
+    list_of_tasks = []
 
     # Loop through the tasks with deadlines.
     for task in task_with_deadlines:
+
+        # Create a dictionary to hold the task name and the number of days until
+        # the deadline.
+        tasks_element = {}
 
         due = task.due
 
@@ -78,14 +86,15 @@ def get_data():
         # Format the task name.
         task_name = format_task_name(task.content)
 
-        # Add the task content and days until the deadline to the dictionary.
-        tasks_and_days_remaining[task_name] = days_until_deadline
+        tasks_element["name"] = task_name
+        tasks_element["days"] = days_until_deadline
+        tasks_element["project"] = project_name_dict[task.project_id]
 
-    # Sort the dictionary by the number of days remaining.
-    tasks_and_days_remaining = dict(
-        sorted(tasks_and_days_remaining.items(), key=lambda item: item[1])
-    )
-    return tasks_and_days_remaining
+        list_of_tasks.append(tasks_element)
+
+    list_of_tasks.sort(key=lambda x: x["days"])
+
+    return list_of_tasks
 
 
 gui = GUI(get_data)
