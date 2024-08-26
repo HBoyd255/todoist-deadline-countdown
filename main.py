@@ -60,8 +60,14 @@ def get_data():
     # Loop through the tasks with deadlines.
     for task in task_with_deadlines:
 
+        due = task.due
+
+        # Skip recurring tasks.
+        if due.is_recurring:
+            continue
+
         # Get the date of the deadline as a string.
-        deadline_string = task.due.date
+        deadline_string = due.date
 
         # Convert the string to a date object.
         deadline_date = datetime.strptime(deadline_string, "%Y-%m-%d").date()
