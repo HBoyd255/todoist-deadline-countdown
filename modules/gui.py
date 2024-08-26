@@ -21,15 +21,7 @@ LIGHT_GRAY = "#88c070"
 DARK_GRAY = "#346856"
 BLACK = "#081820"
 
-# Define colors
-BACKGROUND_COLOR = WHITE
-TOP_MENU_COLOR = LIGHT_GRAY
-BUTTON_COLOR = DARK_GRAY
 TEXT_COLOR = BLACK
-BUTTON_TEXT_COLOR = BLACK
-PRESSED_BUTTON_COLOR = DARK_GRAY
-PRESSED_BUTTON_TEXT_COLOR = BLACK
-
 
 class GUI:
     def __init__(self, get_data_function) -> None:
@@ -39,7 +31,7 @@ class GUI:
         self._root = tk.Tk()
         self._root.title("Todoist Task Selector")
         self._root.geometry("400x400")
-        self._root.configure(bg=BACKGROUND_COLOR)
+        self._root.configure(bg=WHITE)
 
     def _show_deadline_list(self):
         """Shows a table of key-value pairs as labels, fitting within the 400x400 window."""
@@ -51,7 +43,7 @@ class GUI:
         # Create a frame with a border to hold the table
         table_frame = tk.Frame(
             self._root,
-            bg=BACKGROUND_COLOR,
+            bg=WHITE,
             bd=5,  # Border width
             relief="solid",  # Border style
         )
@@ -65,8 +57,8 @@ class GUI:
         tk.Label(
             table_frame,
             text="Task",
-            font=(CHOSEN_FONT, 12),
-            bg=TOP_MENU_COLOR,
+            font=(CHOSEN_FONT, 24),
+            bg=DARK_GRAY,
             fg=TEXT_COLOR,
             bd=1,
             relief="solid",
@@ -74,8 +66,8 @@ class GUI:
         tk.Label(
             table_frame,
             text="Days",
-            font=(CHOSEN_FONT, 12),
-            bg=TOP_MENU_COLOR,
+            font=(CHOSEN_FONT, 24),
+            bg=DARK_GRAY,
             fg=TEXT_COLOR,
             bd=1,
             relief="solid",
@@ -83,21 +75,34 @@ class GUI:
 
         # For each task, create a row with the task name and days until deadline.
         for i, (key, value) in enumerate(self._data.items(), start=1):
+
+            even_row = i % 2 == 0
+
+            if even_row:
+                colour_a = WHITE
+                colour_b = LIGHT_GRAY
+            else:
+                colour_a = LIGHT_GRAY
+                colour_b = WHITE
+
             tk.Label(
                 table_frame,
                 text=key,
-                font=(CHOSEN_FONT, 10),
-                bg=BACKGROUND_COLOR,
+                font=(CHOSEN_FONT, 20),
+                bg=colour_a,
                 fg=TEXT_COLOR,
+                bd=1,
+                relief="solid",
             ).grid(row=i, column=0, padx=PAD_X, pady=PAD_Y, sticky="nsew")
 
-            print(key)
             tk.Label(
                 table_frame,
                 text=value,
-                font=(CHOSEN_FONT, 10),
-                bg=BACKGROUND_COLOR,
+                font=(CHOSEN_FONT, 20),
+                bg=colour_b,
                 fg=TEXT_COLOR,
+                bd=1,
+                relief="solid",
             ).grid(row=i, column=1, padx=PAD_X, pady=PAD_Y, sticky="nsew")
 
     def _start(self):
@@ -108,14 +113,14 @@ class GUI:
         self._show_deadline_list()
 
     def _show_loading_screen(self):
-        initial_frame = tk.Frame(self._root, bg=BACKGROUND_COLOR)
+        initial_frame = tk.Frame(self._root, bg=WHITE)
         initial_frame.pack(fill=tk.BOTH, expand=True)
 
         initial_label = tk.Label(
             initial_frame,
             text="Loading...",
             font=(CHOSEN_FONT, 16),
-            bg=BACKGROUND_COLOR,
+            bg=WHITE,
             fg=TEXT_COLOR,
         )
         initial_label.pack(pady=PAD_Y, expand=True)
