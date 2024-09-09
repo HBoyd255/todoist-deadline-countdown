@@ -1,8 +1,5 @@
 import tkinter as tk
-import random
 import webbrowser
-from typing import List
-from todoist_api_python.models import Task
 
 PAD_X = 0
 PAD_Y = 0
@@ -100,6 +97,7 @@ class GUI:
             task_name = task_element["name"]
             days_remaining = task_element["days"]
             project_name = task_element["project"]
+            task_url = task_element["url"]
 
             even_row = i % 2 == 0
 
@@ -111,7 +109,7 @@ class GUI:
                 colour_b = WHITE
 
             # Task name
-            tk.Label(
+            tk.Button(
                 table_frame,
                 text=task_name,
                 font=(CHOSEN_FONT, 20),
@@ -119,6 +117,7 @@ class GUI:
                 fg=TEXT_COLOR,
                 bd=1,
                 relief="solid",
+                command=lambda url=task_url: webbrowser.open(url),
             ).grid(
                 row=row_number, column=0, padx=PAD_X, pady=PAD_Y, sticky="nsew"
             )

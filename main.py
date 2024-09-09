@@ -9,7 +9,7 @@ from modules.gui import GUI
 # If set to True, the data will be loaded from the pickle files.
 # If set to False, the data will be loaded from the Todoist API.
 # This allows for faster testing.
-LOAD_FROM_PICKLE = True
+LOAD_FROM_PICKLE = False
 
 # The API key is stored in a text file to keep it secret from the git
 # repository.
@@ -95,6 +95,7 @@ def get_data():
         tasks_element["name"] = task_name
         tasks_element["days"] = days_until_deadline
         tasks_element["project"] = project_name
+        tasks_element["url"] = task.url
 
         list_of_tasks.append(tasks_element)
 
