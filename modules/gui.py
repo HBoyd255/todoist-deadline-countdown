@@ -50,7 +50,7 @@ class GUI:
         # Configure columns to expand and fill space
         table_frame.grid_columnconfigure(0, weight=5, uniform="col")
         table_frame.grid_columnconfigure(1, weight=1, uniform="col")
-        table_frame.grid_columnconfigure(2, weight=2, uniform="col")
+        table_frame.grid_columnconfigure(2, weight=3, uniform="col")
 
         # Create table headers
 
